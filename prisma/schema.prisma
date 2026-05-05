@@ -1,0 +1,131 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model ObrazovniProfil {
+  id        String       @id @default(cuid())
+  naziv     String       @unique
+  slug      String       @unique
+  vrsta     VrstaProfila
+  opis      String
+  tags      Json
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  smerovi Smer[]
+  @@map("obrazovniprofil")
+}
+
+model Upis {
+  id          Int      @id @default(1)
+  title       String
+  description String
+  deadline    DateTime
+  updatedAt   DateTime @updatedAt
+}
+
+model Obavestenje {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String   @db.Text
+  publishedAt DateTime @default(now())
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  
+  @@map("obavestenje")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("user")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+model Smer {
+  id                String          @id @default(cuid())
+  naziv             String
+  slug              String          @unique
+  obrazovniProfilId String
+  obrazovniProfil   ObrazovniProfil @relation(fields: [obrazovniProfilId], references: [id], onDelete: Cascade)
+  trajanje          Int
+
+  opsteInformacije    String? @db.Text
+  ciljevi             String? @db.Text
+  poslovnaProhodnost  String? @db.Text
+  obrazovnaProhodnost String? @db.Text
+  glavnaSlika         String?
+
+  nastavniPlanProgram String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  galerija Slika[]
+  
+  @@map("smer")
+}
+
+model Slika {
+  id        String   @id @default(cuid())
+  smerId    String
+  smer      Smer     @relation(fields: [smerId], references: [id], onDelete: Cascade)
+  url       String
+  naziv     String?
+  redosled  Int      @default(0)
+  createdAt DateTime @default(now())
+  
+  @@map("slika")
+}
+
+model GalerijaAlbum {
+  id         String          @id @default(cuid())
+  naziv      String
+  opis       String?         @db.Text
+  kategorija String          @default("Остало")
+  coverSlika String?
+  vidljiv    Boolean         @default(true)
+  redosled   Int             @default(0)
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  slike      GalerijaSlika[]
+
+  @@map("galerija_album")
+}
+
+model GalerijaSlika {
+  id        String        @id @default(cuid())
+  albumId   String
+  album     GalerijaAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  url       String
+  naziv     String?
+  redosled  Int           @default(0)
+  createdAt DateTime      @default(now())
+
+  @@map("galerija_slika")
+}
+
+enum VrstaProfila {
+  STRUCNO
+  GIMNAZIJA
+  UMETNICKO
+  SPORTSKO
+  JEZICKO
+}
