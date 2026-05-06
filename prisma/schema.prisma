@@ -18,6 +18,7 @@ model ObrazovniProfil {
   updatedAt DateTime     @updatedAt
 
   smerovi Smer[]
+
   @@map("obrazovniprofil")
 }
 
@@ -25,6 +26,7 @@ model Upis {
   id          Int      @id @default(1)
   title       String
   description String
+  content     String
   deadline    DateTime
   updatedAt   DateTime @updatedAt
 }
@@ -37,8 +39,7 @@ model Obavestenje {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
-  
+
   @@map("obavestenje")
 }
 
@@ -50,7 +51,7 @@ model User {
   role      Role     @default(EDITOR)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   @@map("user")
 }
 
@@ -79,7 +80,7 @@ model Smer {
   updatedAt DateTime @updatedAt
 
   galerija Slika[]
-  
+
   @@map("smer")
 }
 
@@ -91,7 +92,7 @@ model Slika {
   naziv     String?
   redosled  Int      @default(0)
   createdAt DateTime @default(now())
-  
+
   @@map("slika")
 }
 

@@ -46,6 +46,12 @@ const navigacija = [
     icon: Images,
     exact: false,
   },
+  {
+    label: "Упис",
+    href: "/admin/upis",
+    icon: Images,
+    exact: false,
+  },
 ];
 
 export default function AdminSidebar({ user }: { user: JwtPayload }) {
@@ -60,7 +66,6 @@ export default function AdminSidebar({ user }: { user: JwtPayload }) {
 
   return (
     <aside className="w-60 bg-stone-950 flex flex-col shrink-0 min-h-screen">
-
       {/* Logo */}
       <div className="px-5 py-6 border-b border-stone-800">
         <div className="flex items-center gap-3">
@@ -82,7 +87,8 @@ export default function AdminSidebar({ user }: { user: JwtPayload }) {
           const Icon = item.icon;
           const aktivan = item.exact
             ? pathname === item.href
-            : pathname.startsWith(item.href) && (item.exact || pathname !== "/admin" || item.href === "/admin");
+            : pathname.startsWith(item.href) &&
+              (item.exact || pathname !== "/admin" || item.href === "/admin");
 
           return (
             <Link

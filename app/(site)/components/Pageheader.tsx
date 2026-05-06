@@ -72,7 +72,7 @@ export default function PageHeader({
         <div className="flex items-center gap-3 mb-3">
           <span className="w-8 h-px bg-crimson-500" />
           <span className="text-crimson-300 text-xs font-bold uppercase tracking-[0.2em]">
-            Средња Школа Доситеј
+            Средња Техничка Школа
           </span>
         </div>
 

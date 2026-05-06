@@ -13,7 +13,6 @@ import {
   CalendarDays,
   CheckCircle2,
   ChevronRight,
-  AArrowDown,
 } from "lucide-react";
 import HeroSlider from "./components/HeroSlider";
 import { getSviProfili } from "@/services/profiliService";
@@ -21,6 +20,7 @@ import { ikonePoProfilu } from "@/data/profiliIkone";
 import ObavestenjaSlider from "./components/ObavestenjaSlider";
 import { getAktivnaObavestenja } from "@/services/obavestenjaService";
 import Button from "./components/Button";
+import { getUpis } from "@/services/upisService";
 
 const upisKoraci = [
   {
@@ -45,20 +45,19 @@ const upisKoraci = [
   },
 ];
 export default async function Home() {
-  const [profili, obavestenja] = await Promise.all([
+  const [profili, obavestenja, upis] = await Promise.all([
     getSviProfili(),
     getAktivnaObavestenja(3),
+    getUpis(),
   ]);
   return (
     <>
-      {/* Hero Slider */}
       <HeroSlider />
 
       {obavestenja.length > 0 && (
         <ObavestenjaSlider obavestenja={obavestenja} />
       )}
 
-      {/* Upis Section */}
       <section className="py-20 bg-stone-50 relative overflow-hidden">
         <div className="absolute inset-0 pattern-dots opacity-40" />
         <div className="relative max-w-7xl mx-auto px-6">
@@ -66,13 +65,15 @@ export default async function Home() {
             <div>
               <span className="section-tag">Конкурс</span>
               <h2 className="text-4xl md:text-5xl font-black text-stone-900 leading-tight">
-                Упис <span className="text-crimson-700">2026/2027</span>
+                Упис{" "}
+                <span className="text-crimson-700">
+                  {upis?.title ?? "2026/2027"}
+                </span>
               </h2>
               <div className="divider-crimson" />
               <p className="text-stone-600 text-base leading-relaxed mb-8">
-                Пријавите се за школску годину 2026/2027. Конкурс је отворен за
-                све заинтересоване кандидате. Упишите занимање будућности и
-                осигурајте себи квалификацију коју тржиште рада тражи.
+                {upis?.description ??
+                  "Пријавите се за нову школску годину. Конкурс је отворен за све заинтересоване кандидате. Упишите занимање будућности и осигурајте себи квалификацију коју тржиште рада тражи."}
               </p>
               <ul className="space-y-3 mb-8">
                 {[

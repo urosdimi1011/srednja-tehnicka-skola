@@ -1,141 +1,63 @@
 import Link from "next/link";
 import {
-  CalendarDays,
-  CheckCircle2,
-  FileText,
   Phone,
   Mail,
   ArrowRight,
   Info,
   ClipboardList,
-  UserPlus,
-  Clock,
+  FileText,
 } from "lucide-react";
 import PageHeader from "../components/Pageheader";
-import InfoCardGrid from "../components/InfoCardGrid";
 import Button from "../components/Button";
+import { getUpis } from "@/services/upisService";
 
-export const metadata = {
-  title: "Upis 2026/2027 | Srednja Tehnička Škola Beograd",
-  description:
-    "Informacije o upisu u Srednju Tehničku Školu za školsku 2026/2027. godinu. Rokovi, dokumentacija, obrazovni profili i kontakt.",
-  keywords: [
-    "upis 2026",
-    "upis u srednju školu",
-    "tehnička škola upis",
-    "dokumentacija za upis",
-    "rok za upis",
-  ],
-  openGraph: {
-    title: "Upis 2026/2027 | Srednja Tehnička Škola",
-    description: "Sve informacije o upisu – rokovi, dokumenta i kontakt",
-    type: "website",
-  },
-};
+export async function generateMetadata() {
+  const upis = await getUpis();
+  const godina = upis?.title ?? "2026/2027";
+  return {
+    title: `Upis ${godina} | Srednja Tehnička Škola Beograd`,
+    description:
+      upis?.description ??
+      `Informacije o upisu u Srednju Tehničku Školu za školsku ${godina}. godinu.`,
+  };
+}
 
-const upisKartice = [
-  {
-    icon: CalendarDays,
-    label: "Rokovi za prijavu",
-    value: "Jun i avgust 2026",
-    href: "#rokovi",
-    desc: "Dva upisna roka – pogledajte tačne datume",
-  },
-  {
-    icon: FileText,
-    label: "Potrebna dokumenta",
-    value: "Spisak od 6 dokumenata",
-    href: "#dokumentacija",
-    desc: "Šta sve treba da priložite",
-  },
-  {
-    icon: UserPlus,
-    label: "Način prijave",
-    value: "Lično ili onlajn",
-    href: "/kontakt",
-    desc: "Prijava preko sekretarijata ili mejlom",
-  },
-  {
-    icon: ClipboardList,
-    label: "Obrazovni profili",
-    value: "Više od 10 smerova",
-    href: "/obrazovni-profili",
-    desc: "Pogledajte sve tehničke profile",
-  },
-  {
-    icon: Clock,
-    label: "Trajanje školovanja",
-    value: "3 ili 4 godine",
-    href: "/o-nama/skolovanje",
-    desc: "Zavisno od profila – redovno ili vanredno",
-  },
-  {
-    icon: CheckCircle2,
-    label: "Uslovi upisa",
-    value: "Završena osnovna škola",
-    href: "#",
-    desc: "Položen završni ispit i ispunjenost kriterijuma",
-  },
-];
+export default async function UpisPage() {
+  const upis = await getUpis();
+  const godina = upis?.title ?? "2026/2027";
 
-const dokumenta = [
-  "Пријавни лист (добија се у школи или онлајн)",
-  "Фотокопија сведочанстава свих разреда основне школе",
-  "Диплома о завршеној основној школи",
-  "Извод из матичне књиге рођених",
-  "Две фотографије (3,5 × 4,5 цм)",
-  "Здравствена књижица на увид",
-];
-
-const rokovi = [
-  {
-    phase: "Јунски рок",
-    items: [
-      { label: "Пријава кандидата", date: "Јун 2026" },
-      { label: "Објава прелиминарне листе", date: "Јун 2026" },
-      { label: "Коначна ранг листа", date: "Јун 2026" },
-      { label: "Упис примљених ученика", date: "Јун/Јул 2026" },
-    ],
-  },
-  {
-    phase: "Августовски рок",
-    items: [
-      { label: "Пријава кандидата", date: "Август 2026" },
-      { label: "Објава ранг листе", date: "Август 2026" },
-      { label: "Упис примљених ученика", date: "Август 2026" },
-    ],
-  },
-];
-
-export default function UpisPage() {
   return (
     <>
       <PageHeader
         title={
           <>
-            Упис <span className="text-crimson-500">2026/2027</span>
+            Упис <span className="text-crimson-500">{godina}</span>
           </>
         }
-        subtitle="Пријавите се за нову школску годину. Конкурс је отворен за све заинтересоване кандидате – редовно и ванредно школовање."
-        breadcrumbs={[{ label: "Упис 2026/2027" }]}
+        subtitle={
+          upis?.description ??
+          "Пријавите се за нову школску годину. Конкурс је отворен за све заинтересоване кандидате – редовно и ванредно школовање."
+        }
+        breadcrumbs={[{ label: `Упис ${godina}` }]}
       />
 
+      {/* Banner */}
       <div className="bg-crimson-700 text-white">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-3">
           <Info size={18} className="shrink-0" />
           <p className="text-sm">
             <strong>Конкурс је у току!</strong> За тачне датуме контактирајте
-            секретаријат на
+            секретаријат на{" "}
             <a
               href="tel:0648129695"
-              className="underline hover:no-underline font-bold mx-1"
+              className="underline hover:no-underline font-bold"
             >
               064/812-96-95
-            </a>
-            или
+            </a>{" "}
+            или{" "}
             <a
               href="mailto:srednjatehnickaskola@gmail.com"
-              className="underline hover:no-underline mx-1"
+              className="underline hover:no-underline"
             >
               srednjatehnickaskola@gmail.com
             </a>
@@ -146,74 +68,32 @@ export default function UpisPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2 space-y-14">
-              <div>
-                <InfoCardGrid
-                  title={{
-                    tag: "UPIS 2026/2027",
-                    main: "Како се уписати?",
-                    subtitle:
-                      "Све што вам треба за успешну пријаву – рокови, документација и кораци.",
-                  }}
-                  items={null}
-                  variant="default"
-                  showArrow
+            <div className="lg:col-span-2 space-y-10">
+              {upis?.content ? (
+                <div
+                  className="prose prose-stone prose-sm max-w-none
+                    prose-headings:font-bold prose-headings:text-stone-900
+                    prose-h2:text-xl prose-h3:text-base
+                    prose-p:text-stone-600 prose-p:leading-relaxed
+                    prose-li:text-stone-600
+                    prose-strong:text-stone-900
+                    prose-a:text-crimson-700 prose-a:no-underline hover:prose-a:underline
+                    prose-ul:space-y-1 prose-ol:space-y-1
+                    [&_table]:w-full [&_table]:border-collapse
+                    [&_th]:bg-crimson-700 [&_th]:text-white [&_th]:px-4 [&_th]:py-2 [&_th]:text-sm [&_th]:font-bold [&_th]:text-left
+                    [&_td]:border [&_td]:border-stone-200 [&_td]:px-4 [&_td]:py-2.5 [&_td]:text-sm [&_td]:text-stone-700
+                    [&_tr:hover_td]:bg-stone-50"
+                  dangerouslySetInnerHTML={{ __html: upis.content }}
                 />
-                <div className="grid md:grid-cols-2 gap-6 mt-8">
-                  {rokovi.map((rok) => (
-                    <div
-                      key={rok.phase}
-                      className="border border-stone-200 overflow-hidden"
-                    >
-                      <div className="bg-crimson-700 text-white px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <CalendarDays size={16} />
-                          <h3 className="font-bold text-sm">{rok.phase}</h3>
-                        </div>
-                      </div>
-                      <div className="divide-y divide-stone-100">
-                        {rok.items.map((item) => (
-                          <div
-                            key={item.label}
-                            className="px-6 py-3.5 flex justify-between items-center"
-                          >
-                            <span className="text-stone-600 text-sm">
-                              {item.label}
-                            </span>
-                            <span className="text-crimson-700 font-semibold text-sm">
-                              {item.date}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Dokumenta */}
-              <div>
-                <span className="section-tag">Документација</span>
-                <h2 className="section-title">Потребна документа</h2>
-                <div className="divider-crimson" />
-                <p className="text-stone-500 text-sm mb-6 mt-2">
-                  Следећа документа потребно је доставити приликом пријаве:
+              ) : (
+                <p className="text-stone-400 text-sm">
+                  Садржај о упису тренутно није доступан. Контактирајте
+                  секретаријат за информације.
                 </p>
-                <ul className="space-y-3">
-                  {dokumenta.map((doc, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2
-                        size={18}
-                        className="text-crimson-700 shrink-0 mt-0.5"
-                      />
-                      <span className="text-stone-700 text-sm">{doc}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              )}
 
-              {/* Obrazovni profili */}
-              <div>
+              {/* Dugme za profile — uvek statičko */}
+              <div className="pt-4 border-t border-stone-100">
                 <span className="section-tag">Профили</span>
                 <h2 className="section-title">Доступни образовни профили</h2>
                 <div className="divider-crimson" />
@@ -233,6 +113,7 @@ export default function UpisPage() {
               </div>
             </div>
 
+            {/* Desna kolona — uvek statička */}
             <div className="space-y-6">
               <div className="bg-[#114880] p-8 text-white sticky top-24">
                 <h3 className="font-bold text-lg mb-1">Информишите се</h3>

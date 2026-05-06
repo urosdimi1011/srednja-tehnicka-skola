@@ -13,7 +13,7 @@ import {
 const navLinks = [
   { label: "Почетна", href: "/" },
   { label: "Мисија и визија", href: "/o-nama/misija-i-vizija" },
-  { label: "Школовање", href: "/o-nama/skolovanje" },
+  { label: "Школовање", href: "/skolovanje" },
   { label: "Документација", href: "/o-nama/dokumentacija" },
   { label: "Образовни профили", href: "/obrazovni-profili" },
   { label: "Упис 2026/2027", href: "/upis" },
@@ -25,7 +25,6 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#114880] text-white/80">
-      {/* Gornja traka (CTA) – koristi bordo tamniju nijansu */}
       <div className="bg-crimson-800">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>

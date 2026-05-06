@@ -71,11 +71,10 @@ export default function Header({ obrazovniProfili }: HeaderProps) {
         </div>
       </div>
 
-      {/* Main header */}
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white shadow-md border-b border-stone-100"
+            ? "bg-white shadow-md border-b border-[#114880]/50"
             : "bg-white border-b border-stone-200"
         }`}
         ref={dropdownRef}
