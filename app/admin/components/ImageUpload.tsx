@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, ImageIcon, Loader2 } from "lucide-react";
+import { compressImage } from "../utils/compressImage";
 
 interface ImageUploadProps {
   value: string;           // trenutna putanja iz baze
@@ -25,8 +26,9 @@ export default function ImageUpload({
     setUploading(true);
     setGreska(null);
 
+    const compressed = await compressImage(file);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", compressed);
     formData.append("folder", folder);
 
     try {
@@ -126,7 +128,7 @@ export default function ImageUpload({
                   Превуците слику или кликните
                 </p>
                 <p className="text-stone-400 text-xs mt-1">
-                  JPG, PNG, WebP · макс. 5MB
+                  JPG, PNG, WebP · макс. 20MB
                 </p>
               </div>
             </>
@@ -143,7 +145,7 @@ export default function ImageUpload({
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif"
+        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
         onChange={handleInput}
         className="hidden"
       />

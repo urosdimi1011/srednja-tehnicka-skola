@@ -26,6 +26,7 @@
     "quill": "^2.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.34.5",
     "ts-node": "^10.9.2",
     "yet-another-react-lightbox": "^3.29.1"
   },

@@ -137,8 +137,16 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-white obrazovni-profili-section">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="py-20 bg-white obrazovni-profili-section relative overflow-hidden">
+        <div className="absolute bottom-10 inset-0 flex items-center justify-center pointer-events-none select-none">
+          <img
+            src="/files/img/venac.png"
+            alt=""
+            className="w-[1200px] max-w-none opacity-9"
+          />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-crimson-400 mb-3">
               Образовање
@@ -196,7 +204,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       <section className="py-20 bg-[#114880] relative overflow-hidden">
         <div className="absolute inset-0 pattern-dots opacity-10" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-crimson-500/10 rounded-full blur-3xl" />

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { Upload, X, ImageIcon, Loader2, GripVertical } from "lucide-react";
+import { compressImage } from "../utils/compressImage";
 
 interface Slika {
   id: string;
@@ -27,8 +28,9 @@ export default function GalerijaUpload({
 
   // Upload jednog fajla
   async function uploadFajl(file: File): Promise<string | null> {
+    const compressed = await compressImage(file);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", compressed);
     formData.append("folder", "galerija");
 
     const res = await fetch("/api/upload", {
@@ -188,7 +190,7 @@ export default function GalerijaUpload({
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/gif"
+        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
         multiple
         onChange={(e) => e.target.files && handleFiles(e.target.files)}
         className="hidden"

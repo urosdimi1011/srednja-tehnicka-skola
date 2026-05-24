@@ -116,35 +116,3 @@
 .animate-float-slow   { animation: float-slow   8s ease-in-out infinite; }
 .animate-float-medium { animation: float-medium  5s ease-in-out infinite; }
 .animate-float-fast   { animation: float-fast    3s ease-in-out infinite; }
-.obrazovni-profili-section {
-  position: relative;
-  overflow: hidden;
-}
-.obrazovni-profili-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.obrazovni-profili-section::before,
-.obrazovni-profili-section::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 400px;
-  height: 800px;
-  background: url("/files/img/latice.png") no-repeat center center;
-  background-size: contain;
-  opacity: 0.25;
-  transform: translateY(-50%);
-  z-index: 0;
-}
-
-.obrazovni-profili-section::before {
-  left: -150px;
-  transform: translateY(-50%) rotate(-20deg);
-}
-
-.obrazovni-profili-section::after {
-  right: -150px;
-  transform: translateY(-50%) rotate(20deg);
-}

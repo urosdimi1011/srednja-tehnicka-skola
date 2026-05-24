@@ -5,7 +5,7 @@ export default defineConfig({
     seed: "ts-node prisma/seed/seed.ts",
   },
   datasource: {
-    url: "mysql://root:4278TgeV%3F@localhost:3307/dositej_db",
+    url: "mysql://stsedu_uros:4278TgeV%3F@194.146.59.72:3306/stsedu_dositej_db",
   },
 });
 // mysql://stsedu_uros:4278TgeV%3F@localhost:3306/stsedu_dositej_db
