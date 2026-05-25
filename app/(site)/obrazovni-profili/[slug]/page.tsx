@@ -25,7 +25,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const profil = await prisma.obrazovniProfil.findUnique({ where: { slug } });
   if (!profil) return { title: "Профил није пронађен" };
-  return { title: profil.naziv, description: profil.opis };
+
+  const description = profil.opis.slice(0, 160);
+  return {
+    title: profil.naziv,
+    description,
+    openGraph: {
+      title: `${profil.naziv} | STS Dositej Beograd`,
+      description,
+      type: "website",
+      url: `https://sts.edu.rs/obrazovni-profili/${slug}`,
+    },
+    alternates: { canonical: `https://sts.edu.rs/obrazovni-profili/${slug}` },
+  };
 }
 
 export default async function ObrazovniProfilPage({

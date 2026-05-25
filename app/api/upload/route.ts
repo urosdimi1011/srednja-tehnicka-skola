@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { existsSync } from "fs";
-import sharp from "sharp";
+import Jimp from "jimp";
 
-const MAX_SIZE = 20 * 1024 * 1024; // 20MB — Sharp smanjuje pre čuvanja
+const MAX_SIZE = 20 * 1024 * 1024;
 const MAX_DIMENSION = 1920;
 
 const EXT_NA_MIME: Record<string, string> = {
@@ -35,14 +35,14 @@ export async function POST(req: NextRequest) {
     if (!mime) {
       return NextResponse.json(
         { error: "Дозвољени формати: JPG, PNG, WebP, GIF" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
         { error: "Фајл је превелик (макс. 20MB)" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -61,18 +61,21 @@ export async function POST(req: NextRequest) {
     let outputBuffer: Buffer;
 
     if (mime === "image/gif") {
-      // GIF-ove čuvamo bez obrade da ne pokvarimo animaciju
       fileName = `${timestamp}-${random}.gif`;
       outputBuffer = inputBuffer;
     } else {
-      fileName = `${timestamp}-${random}.webp`;
-      outputBuffer = await sharp(inputBuffer)
-        .resize(MAX_DIMENSION, MAX_DIMENSION, {
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .webp({ quality: 82 })
-        .toBuffer();
+      const image = await Jimp.read(inputBuffer);
+
+      if (
+        image.getWidth() > MAX_DIMENSION ||
+        image.getHeight() > MAX_DIMENSION
+      ) {
+        image.scaleToFit(MAX_DIMENSION, MAX_DIMENSION);
+      }
+
+      image.quality(82);
+      outputBuffer = await image.getBufferAsync(Jimp.MIME_JPEG);
+      fileName = `${timestamp}-${random}.jpg`;
     }
 
     await writeFile(join(uploadDir, fileName), outputBuffer);
@@ -83,7 +86,7 @@ export async function POST(req: NextRequest) {
     console.error("Upload greška:", err);
     return NextResponse.json(
       { error: "Грешка приликом учитавања фајла" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

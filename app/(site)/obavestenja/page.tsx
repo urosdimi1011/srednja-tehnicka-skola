@@ -7,6 +7,8 @@ import PageHeader from "@/app/(site)/components/Pageheader";
 
 export const metadata = {
   title: "Обавештења",
+  description: "Aktuelna obavestenja Srednje Tehnicke Skole Dositej Obradovic - raspored ispita, vazni datumi, novosti iz skole.",
+  alternates: { canonical: "https://sts.edu.rs/obavestenja" },
 };
 
 export default async function ObavestenjaPage() {

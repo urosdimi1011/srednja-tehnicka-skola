@@ -127,6 +127,7 @@ export default function GalerijaUpload({
                   alt={slika.naziv ?? "Slika"}
                   fill
                   className="object-cover"
+                  unoptimized
                 />
               </div>
 

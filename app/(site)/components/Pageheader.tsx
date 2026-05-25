@@ -13,6 +13,7 @@ interface PageHeaderProps {
   subtitle?: string;
   breadcrumbs?: Breadcrumb[];
   image?: string;
+  imageAlt?: string;
 }
 
 export default function PageHeader({
@@ -20,12 +21,13 @@ export default function PageHeader({
   subtitle,
   breadcrumbs = [],
   image = "/files/img/banner1.jpg",
+  imageAlt = "Srednja Tehnička Škola Dositej Obradović Beograd",
 }: PageHeaderProps) {
   return (
     <section className="relative overflow-hidden py-16 md:py-30">
       <Image
         src={image}
-        alt="Ekskurzija srednje tehničke škole"
+        alt={imageAlt}
         fill
         className="object-cover object-center"
         priority

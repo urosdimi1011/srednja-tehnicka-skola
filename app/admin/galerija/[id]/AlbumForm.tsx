@@ -44,7 +44,6 @@ export default function AlbumForm({ album }: { album: Album | null }) {
   const [greska, setGreska] = useState<string | null>(null);
   const [noviFajlovi, setNoviFajlovi] = useState<File[]>([]);
 
-  // Za novi album – čuvaj fajlove lokalno i prikaži preview
   function handleFajlovi(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
@@ -58,7 +57,6 @@ export default function AlbumForm({ album }: { album: Album | null }) {
     }
   }
 
-  // Za postojeći album – uploaduj odmah na server
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
@@ -105,7 +103,6 @@ export default function AlbumForm({ album }: { album: Album | null }) {
 
     try {
       if (isNovi) {
-        // POST sa FormData – naziv + slike u jednom zahtevu
         const fd = new FormData();
         fd.append("naziv", naziv);
         fd.append("opis", opis);
@@ -124,7 +121,6 @@ export default function AlbumForm({ album }: { album: Album | null }) {
           setGreska(d.error ?? "Грешка");
         }
       } else {
-        // PUT samo podatke (slike se uploadu zasebno)
         const res = await fetch(`/api/galerija/${album!.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -232,7 +228,7 @@ export default function AlbumForm({ album }: { album: Album | null }) {
                 alt={slika.naziv ?? ""}
                 fill
                 className="object-cover"
-                unoptimized={slika.url.startsWith("blob:")}
+                unoptimized
               />
               <button
                 onClick={() => handleObrisiSliku(slika.id)}

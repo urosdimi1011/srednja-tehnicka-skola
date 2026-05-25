@@ -201,7 +201,7 @@ export default function KontaktPage() {
         />
 
         {/* Info overlay */}
-        <div className="absolute bottom-6 left-6 bg-stone-900/95 text-white px-5 py-4 flex items-center gap-3 shadow-xl">
+        <div className="absolute bottom-6 left-6 bg-[#114880] text-white px-5 py-4 flex items-center gap-3 shadow-xl">
           <MapPin size={18} className="text-crimson-500 shrink-0" />
           <div>
             <p className="font-bold text-sm">Средња Техничка Школа</p>

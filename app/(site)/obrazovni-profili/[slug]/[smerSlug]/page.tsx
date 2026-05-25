@@ -26,10 +26,30 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; smerSlug: string }>;
 }) {
-  const { smerSlug } = await params;
-  const smer = await prisma.smer.findUnique({ where: { slug: smerSlug } });
+  const { slug, smerSlug } = await params;
+  const smer = await prisma.smer.findUnique({
+    where: { slug: smerSlug },
+    select: { naziv: true, opsteInformacije: true, trajanje: true },
+  });
   if (!smer) return { title: "Смер није пронађен" };
-  return { title: smer.naziv };
+
+  const description = smer.opsteInformacije
+    ? smer.opsteInformacije.replace(/<[^>]+>/g, "").slice(0, 160)
+    : `${smer.naziv} — ${smer.trajanje}-godišnji program u Beogradu. Upis 2026/2027.`;
+
+  return {
+    title: smer.naziv,
+    description,
+    openGraph: {
+      title: `${smer.naziv} | STS Dositej Beograd`,
+      description,
+      type: "website",
+      url: `https://sts.edu.rs/obrazovni-profili/${slug}/${smerSlug}`,
+    },
+    alternates: {
+      canonical: `https://sts.edu.rs/obrazovni-profili/${slug}/${smerSlug}`,
+    },
+  };
 }
 
 export default async function SmerPage({
@@ -193,7 +213,7 @@ export default async function SmerPage({
             </div>
 
             <div className="space-y-5">
-              <div className="bg-stone-900 text-white p-7 sticky top-24">
+              <div className="bg-[#114880] text-white p-7 sticky top-24">
                 <div className="w-11 h-11 bg-crimson-700 flex items-center justify-center mb-4">
                   <ProfilIcon size={22} className="text-white" />
                 </div>

@@ -1,7 +1,36 @@
 export const dynamic = "force-dynamic";
 
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { prisma } from "@/api/prisma";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const o = await prisma.obavestenje.findUnique({
+    where: { id: Number(id) },
+    select: { title: true, content: true, publishedAt: true },
+  });
+  if (!o) return { title: "Obaveštenje nije pronađeno" };
+
+  const description = o.content.replace(/<[^>]+>/g, "").slice(0, 160);
+
+  return {
+    title: o.title,
+    description,
+    openGraph: {
+      title: o.title,
+      description,
+      type: "article",
+      publishedTime: o.publishedAt.toISOString(),
+      url: `https://sts.edu.rs/obavestenja/${id}`,
+    },
+    alternates: { canonical: `https://sts.edu.rs/obavestenja/${id}` },
+  };
+}
 import Link from "next/link";
 import { ArrowLeft, Calendar, Bell } from "lucide-react";
 import PageHeader from "@/app/(site)/components/Pageheader";

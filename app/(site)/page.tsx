@@ -1,5 +1,16 @@
 export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Srednja Tehnicka Skola Dositej Obradovic Beograd | Tehnicko obrazovanje",
+  description:
+    "Upisite srednju tehnicku skolu u Beogradu - elektrotehnika, masinstvo, gradjevinarstvo. Redovno i vanredno skolovanje. Konkurs 2026/2027.",
+  alternates: { canonical: "https://sts.edu.rs" },
+  openGraph: {
+    url: "https://sts.edu.rs",
+  },
+};
 import {
   Phone,
   Mail,

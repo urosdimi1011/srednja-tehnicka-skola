@@ -85,7 +85,7 @@ export default function SkolovanjeStrana() {
             </div>
 
             <div className="lg:col-span-2 space-y-4">
-              <div className="bg-stone-900 text-white p-7">
+              <div className="bg-[#114880] text-white p-7">
                 <p className="text-stone-400 text-xs uppercase tracking-widest mb-4 font-semibold">
                   Редовно школовање
                 </p>
@@ -242,7 +242,7 @@ export default function SkolovanjeStrana() {
             </div>
 
             {/* Kontakt vanredno */}
-            <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-stone-900 text-white p-6">
+            <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-[#114880] text-white p-6">
               <div>
                 <p className="font-bold mb-0.5">Информације о ванредном школовању</p>
                 <p className="text-stone-400 text-sm">

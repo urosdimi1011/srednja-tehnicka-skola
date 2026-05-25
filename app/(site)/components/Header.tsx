@@ -85,7 +85,7 @@ export default function Header({ obrazovniProfili }: HeaderProps) {
             <Link href="/" className="flex items-center gap-3 group h-full">
               <img
                 src={"/files/img/favicon.png"}
-                alt="logo"
+                alt="Logo Srednje Tehničke Škole Dositej Obradović Beograd"
                 className="w-full h-full"
               />
             </Link>
